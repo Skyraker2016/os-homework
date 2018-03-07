@@ -1,14 +1,14 @@
-;有规迹显示
+;boot program  
 	DRt equ 1                  ;D-Down,U-Up,R-right,L-Left
     URt equ 2                  ;
     ULt equ 3                  ;
     DLt equ 4                  ;
     delay equ 50000				; 计时器延迟计数,用于控制画框的速度
     ddelay equ 580		 
-	Hm equ 25					;最大高度
-	Lm equ 80  					;最大宽度
-	BOOTSEG equ 0x07c0  		;段基址0x07c0
-	DISPLAYSEG equ 0xb800  		;0xb800
+	Hm equ 25
+	Lm equ 80  
+BOOTSEG     equ 0x07c0  
+DISPLAYSEG  equ 0xb800  
   
 _start:  
   
@@ -21,6 +21,8 @@ _start:
     mov     es, ax  
   
 	
+	mov ax, 200FH
+	
 loop1:
 	dec word[count]				; 递减计数变量
 		jnz loop1					; >0：跳转;
@@ -29,39 +31,39 @@ loop1:
 		jnz loop1
 		mov word[count],delay
 		mov word[dcount],ddelay
-	;mov al, 20H	;空格覆盖
-	;mov ah, 0FH	
-	;mov [es:bx], ax
-	mov al, DRt	;↘
+	mov al, 20H	;空格覆盖
+	mov ah, 0FH
+	mov [es:bx], ax
+	mov al, DRt
 		cmp al, byte[dir]
 		jz DRF
-	mov al, DLt	;↙
+	mov al, DLt
 		cmp al, byte[dir]
 		jz DLF
-	mov al, URt	;↗
+	mov al, URt
 		cmp al, byte[dir]
 		jz URF
-	mov al, ULt	;↖
+	mov al, ULt
 		cmp al, byte[dir]
 		jz ULF
 		
 	jmp $
 
 DRF:
-	inc word[x]	
-	inc word[y]	;向右下前进一格
+	inc word[x]
+	inc word[y]
 	mov ax, Hm
-		mov bx, word[x]	;判断x是否越界
+		mov bx, word[x]
 		sub ax, bx
 		jz dr2ur
 	mov ax, Lm
-		mov bx, word[y]	;判断y是否越界
+		mov bx, word[y]
 		sub ax, bx
 		jz dr2dl
 	jmp display
-dr2ur:	;回弹——从右下改为右上
+dr2ur:
 	mov word[x], Hm-2
-	mov ax, Lm	;判断是否为角落
+	mov ax, Lm
 		mov bx, word[y]
 		sub ax, bx
 		jz drA
@@ -71,7 +73,7 @@ dr2dl:
 	mov word[y], Lm-2
 	mov byte[dir], DLt
 	jmp display
-drA:	;角落时原路返回
+drA:
 	mov word[y],Lm-2
 	mov byte[dir], ULt
 	jmp display
@@ -163,17 +165,17 @@ ulA:
 	mov byte[dir], DRt
 	jmp display
 	
-display:	;显示模块
+display:
 	mov ax, word[x]
 	mov bx, Lm
 	mul bx
 	add ax, word[y]
 	mov bx, 2
 	mul bx
-	mov bx, ax	;bx = ax = (x*80+y) * 2
+	mov bx, ax
 	mov ah, 0FH
 	mov al, byte[char]
-	mov [es:bx], ax	;写入显存
+	mov [es:bx], ax
 	jmp loop1
 	
 end:
@@ -188,5 +190,5 @@ end:
     x    dw 7
     y    dw 0
 	
-    times 510-($-$$) db 0  ;填充空格
+    times 510-($-$$) db 0  
     dw  0xaa55  

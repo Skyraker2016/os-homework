@@ -16,7 +16,7 @@ section .data
     dir db DRt         ; 向右下运动
     x    dw 7
     y    dw 0
-
+	info db "ygz 16337287 ",0
 	
 
 section .text
