@@ -23,7 +23,6 @@ _start:
     ;将文本显示内存段基址 放在ES中，供后面显示字符使用  
     mov     ax, DISPLAYSEG  
     mov     es, ax  
-	mov		bx, 1000
 	
 loop1:
 	dec word[count]				; 递减计数变量
