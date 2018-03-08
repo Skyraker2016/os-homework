@@ -9,7 +9,7 @@
 ## 目录：
 1. 显示@
 2. 显示弹跳文字
-	0. 有轨迹
-	1. 无规迹
-	2. 显示信息
+	1. 有轨迹
+	2. 无规迹
+	3. 显示信息
 		1. 2 2 string: copy from [others helloworld](http://blog.csdn.net/sivolin/article/details/40859987) to learn string.
