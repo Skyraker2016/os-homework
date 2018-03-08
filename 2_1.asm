@@ -7,13 +7,15 @@
     ddelay equ 580		 
 	Hm equ 25					;最大高度
 	Lm equ 80  					;最大宽度
-	BOOTSEG equ 0x07c0  		;段基址0x07c0
-	DISPLAYSEG equ 0xb800  		;0xb800
-  
+	BOOTSEG equ 0x7c00  		;段基址0x7c00
+	DISPLAYSEG equ 0xb800  		;显存基地址0xb800
+	org BOOTSEG					
+	
+section .text
 _start:  
   
     ;初始化数据段，使其指向段基址0X7C0处，即Boot代码被加载的地方  
-    mov     ax, BOOTSEG  
+    mov     ax, cs
     mov     ds, ax  
   
     ;将文本显示内存段基址 放在ES中，供后面显示字符使用  
@@ -180,7 +182,7 @@ end:
 	jmp $
 	
 
-  
+section .data  
 	char db 'A'
     count dw delay
     dcount dw ddelay
