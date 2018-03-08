@@ -1,4 +1,4 @@
-;有规迹显示
+;显示学号姓名缩写
 	DRt equ 1                  ;D-Down,U-Up,R-right,L-Left
     URt equ 2                  ;
     ULt equ 3                  ;
@@ -19,7 +19,7 @@ _start:
     ;将文本显示内存段基址 放在ES中，供后面显示字符使用  
     mov     ax, DISPLAYSEG  
     mov     es, ax  
-  
+	mov 	si, info
 	
 loop1:
 	dec word[count]				; 递减计数变量
@@ -172,16 +172,27 @@ display:	;显示模块
 	mul bx
 	mov bx, ax	;bx = ax = (x*80+y) * 2
 	mov ah, 0FH
-	mov al, byte[char]
+	;mov al, byte[char]
+	;信息输出：选择信息字符存入al：
+	inc si
+	cmp byte[si], 0	;若到结尾重置
+		jz reset
+back:
+	mov al, [si]
 	mov [es:bx], ax	;写入显存
 	jmp loop1
+
+reset:
+	mov si, info
+	jmp back
 	
 end:
 	jmp $
-	
+
 
   
-	char db 'A'
+	indx db 0
+	info db " ygz 16337287",0
     count dw delay
     dcount dw ddelay
     dir db DRt         ; 向右下运动

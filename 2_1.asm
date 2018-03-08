@@ -1,4 +1,4 @@
-;无规迹显示
+;有规迹显示
 	DRt equ 1                  ;D-Down,U-Up,R-right,L-Left
     URt equ 2                  ;
     ULt equ 3                  ;
@@ -29,9 +29,9 @@ loop1:
 		jnz loop1
 		mov word[count],delay
 		mov word[dcount],ddelay
-	mov al, 20H	;空格覆盖
-	mov ah, 0FH	
-	mov [es:bx], ax
+	;mov al, 20H	;空格覆盖
+	;mov ah, 0FH	
+	;mov [es:bx], ax
 	mov al, DRt	;↘
 		cmp al, byte[dir]
 		jz DRF
