@@ -10,11 +10,11 @@
 	BOOTSEG equ 0x7c00  		;段基址0x7c00
 	DISPLAYSEG equ 0xb800  		;显存基地址0xb800
 	org BOOTSEG					
-	
+
 section .text
 _start:  
   
-    ;初始化数据段，使其指向段基址0X7C0处，即Boot代码被加载的地方  
+    ;初始化数据段，使其指向段基址0X7C00处，即Boot代码被加载的地方  
     mov     ax, cs
     mov     ds, ax  
   
@@ -54,18 +54,18 @@ DRF:
 	inc word[y]	;向右下前进一格
 	mov ax, Hm
 		mov bx, word[x]	;判断x是否越界
-		sub ax, bx
+		cmp ax, bx
 		jz dr2ur
 	mov ax, Lm
 		mov bx, word[y]	;判断y是否越界
-		sub ax, bx
+		cmp ax, bx
 		jz dr2dl
 	jmp display
 dr2ur:	;回弹——从右下改为右上
 	mov word[x], Hm-2
 	mov ax, Lm	;判断是否为角落
 		mov bx, word[y]
-		sub ax, bx
+		cmp ax, bx
 		jz drA
 	mov byte[dir], URt
 	jmp display
@@ -83,18 +83,18 @@ DLF:
 	dec word[y]
 	mov ax, Hm
 		mov bx, word[x]
-		sub ax, bx
+		cmp ax, bx
 		jz dl2ul
 	mov ax, -1
 		mov bx, word[y]
-		sub ax, bx
+		cmp ax, bx
 		jz dl2dr
 	jmp display
 dl2ul:
 	mov word[x], Hm-2
 	mov ax, -1
 		mov bx, word[y]
-		sub ax, bx
+		cmp ax, bx
 		jz dlA	
 	mov byte[dir], ULt
 	jmp display
@@ -112,18 +112,18 @@ URF:
 	inc word[y]
 	mov ax, -1
 		mov bx, word[x]
-		sub ax, bx
+		cmp ax, bx
 		jz ur2dr
 	mov ax, Lm
 		mov bx, word[y]
-		sub ax, bx
+		cmp ax, bx
 		jz ur2ul
 	jmp display
 ur2dr:
 	mov word[x], 1
 	mov ax, Lm
 		mov bx, word[y]
-		sub ax, bx
+		cmp ax, bx
 		jz urA
 	mov byte[dir], DRt
 	jmp display
@@ -141,18 +141,18 @@ ULF:
 	dec word[y]
 	mov ax, -1
 		mov bx, word[x]
-		sub ax, bx
+		cmp ax, bx
 		jz ul2dl
 	mov ax, -1
 		mov bx, word[y]
-		sub ax, bx
+		cmp ax, bx
 		jz ul2ur
 	jmp display
 ul2dl:
 	mov word[x], 1
 	mov ax, -1
 		mov bx, word[y]
-		sub ax, bx
+		cmp ax, bx
 		jz ulA	
 	mov byte[dir], DLt
 	jmp display
