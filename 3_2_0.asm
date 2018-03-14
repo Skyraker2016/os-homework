@@ -29,6 +29,8 @@ check_users_input:
         jz load_program
     cmp al, 4
         jz load_program
+    cmp al, 0
+        jz clc_all
     jmp wrong_input
 load_program:
     mov [index], al
@@ -54,6 +56,18 @@ load_success:
     mov ah, 0EH
     int 10h
     call load_offset
+;write_back:
+;    mov ax, cs
+;    mov es, ax
+;    mov ah, 3
+;    mov al, 2
+;    mov dl, 0
+;    mov ch, 0
+;    mov dh, 0
+;    mov cl, [index]
+;    add cl, [index]
+;    mov bx, load_offset
+;    int 13h
 jmp say_welcome
 jmp $
 

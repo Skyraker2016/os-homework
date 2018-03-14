@@ -42,6 +42,11 @@ loop1:
 	;mov al, 20H	;空格覆盖
 	;mov ah, 0FH	
 	;mov [es:bx], ax   
+	;判断是否输入
+    mov ah, 1
+    int 16h
+        jnz end_program
+
 	dec byte[color]
 	cmp byte[color], 01H
 	jz reset
@@ -189,10 +194,6 @@ ulA:
 	jmp display
 	
 display:	;显示模块
-    ;判断是否输入
-    mov ah, 1
-    int 16h
-        jnz end_program
 
 	mov ax, word[x]
 	mov bx, Lm

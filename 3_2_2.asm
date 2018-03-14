@@ -32,7 +32,7 @@ start:
     ;将文本显示内存段基址 放在ES中，供后面显示字符使用  
     mov     ax, DISPLAYSEG  
     mov     es, ax  
-	mov 	si, info
+	mov 	si, [sii]
 	
 loop1:
 	dec word[count]				; 递减计数变量
@@ -45,6 +45,10 @@ loop1:
 	;mov al, 20H	;空格覆盖
 	;mov ah, 0FH	
 	;mov [es:bx], ax
+	;判断是否输入
+    mov ah, 1
+    int 16h
+        jnz end_program
 	mov al, DRt	;↘
 		cmp al, byte[dir]
 		jz DRF
@@ -190,10 +194,7 @@ ulA:
 	jmp display
 	
 display:	;显示模块
-    ;判断是否输入
-    mov ah, 1
-    int 16h
-        jnz end_program
+
 
 	mov ax, word[x]
 	mov bx, Lm
@@ -212,11 +213,13 @@ back:
 	mov al, [si]
 	mov [es:bx], ax	;写入显存
     inc si
+	mov [sii],si
 	jmp loop1
 
 reset:
 	mov si, info
 	;修改颜色
+	mov [sii],si
 	dec ah
 	jz color_reset
 color_back:
@@ -233,8 +236,8 @@ end_program:
 
 ;section .data
   
-	indx db 0
 	info db "ygz16337287",0
+	sii dw info
     count dw delay
     dcount dw ddelay
     dir db DRt         ; 向右下运动

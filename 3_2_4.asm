@@ -20,6 +20,7 @@ _start:
     ;初始化数据段，使其指向段基址0X7C00处，即Boot代码被加载的地方  
     mov     ax, cs
     mov     ds, ax  
+	
 	clc_all:
     mov al, 0
     mov ah, 6
@@ -28,6 +29,7 @@ _start:
     mov dh, 25
     mov dl, 80
     int 10h  
+	
     ;将文本显示内存段基址 放在ES中，供后面显示字符使用  
     mov     ax, DISPLAYSEG  
     mov     es, ax  
@@ -44,6 +46,11 @@ loop1:
 	;mov al, 20H	;空格覆盖
 	;mov ah, 0FH	
 	;mov [es:bx], ax
+	;判断是否输入
+    mov ah, 1
+    int 16h
+        jnz end_program
+
 	mov al, DRt	;↘
 		cmp al, byte[dir]
 		jz DRF
@@ -190,10 +197,6 @@ ulA:
 	
 	
 display:	;显示模块
-    ;判断是否输入
-    mov ah, 1
-    int 16h
-        jnz end_program
 
 	mov ax, word[x]
 	mov bx, Lm
