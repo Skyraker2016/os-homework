@@ -13,7 +13,7 @@
     DBond equ 13
 
 	DISPLAYSEG equ 0xb800  		;显存及地址0xb800
-	org 0x8100					;告诉汇编器要在0x7c00执行
+	org 0x9100					;告诉汇编器要在0x7c00执行
 	
 start:  
   
@@ -46,9 +46,16 @@ loop1:
 	;mov ah, 0FH	
 	;mov [es:bx], ax
 	;判断是否输入
+    mov dx, $
+	mov     ax, cs
+    mov     ds, ax  
+    mov     ax, DISPLAYSEG  
+    mov     es, ax  
+	mov 	si, [sii]
     mov ah, 1
+	cmp ah, ah
     int 16h
-        jnz end_program
+	    jnz end_program
 	mov al, DRt	;↘
 		cmp al, byte[dir]
 		jz DRF
