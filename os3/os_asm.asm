@@ -252,13 +252,12 @@ __run_program:
     enter 0,0
 
     mov ax, [bp+2+4*1]
-    mov [_far_call_seg], ax
+    mov [_far_call_add+2], ax
     mov ax, [bp+2+4*2]
-    mov [_far_call_off], ax
-    mov ax, 0
-    push ax
-    push cs
-    call 1000:0000
+    mov [_far_call_add], ax
+    mov eax, 0
+    push eax
+    call far [_far_call_add]
 
 
     leave
@@ -266,7 +265,4 @@ __run_program:
     jmp cx
 
 
-_far_call_seg:
-    dw 0
-_far_call_off:
-    dw 0
+_far_call_add dw 0, 0

@@ -33,7 +33,7 @@
 00000000000i[      ]   Sound support: SB16 ES1370
 00000000000i[      ]   USB support: UHCI OHCI EHCI xHCI
 00000000000i[      ]   VGA extension support: vbe cirrus voodoo
-00000000000i[MEM0  ] allocated memory at 065E5020. after alignment, vector=065E6000
+00000000000i[MEM0  ] allocated memory at 0663B020. after alignment, vector=0663C000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('D:\Bochs-2.6.9/BIOS-bochs-latest')
@@ -43,7 +43,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Tue Mar 27 12:35:07 2018 (time0=1522125307)
+00000000000i[CMOS  ] Setting initial clock to: Tue Mar 27 21:55:40 2018 (time0=1522158940)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -196,25 +196,25 @@
 00002330171i[BXVGA ] VBE known Display Interface b0c5
 00002333095i[VBIOS ] VBE Bios $Id: vbe.c,v 1.65 2014/07/08 18:02:25 vruppert Exp $
 00014918915i[BIOS  ] Booting from 0000:7c00
-33800424000p[WINGUI] >>PANIC<< POWER button turned off.
-33800424000i[CPU0  ] CPU is in real mode (active)
-33800424000i[CPU0  ] CS.mode = 16 bit
-33800424000i[CPU0  ] SS.mode = 16 bit
-33800424000i[CPU0  ] EFER   = 0x00000000
-33800424000i[CPU0  ] | EAX=0000001e  EBX=00001000  ECX=00001807  EDX=00000001
-33800424000i[CPU0  ] | ESP=0000ff72  EBP=0000ff90  ESI=000e0000  EDI=0000ffac
-33800424000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf ZF af PF cf
-33800424000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
-33800424000i[CPU0  ] |  CS:f000( 0004| 0|  0) 000f0000 0000ffff 0 0
-33800424000i[CPU0  ] |  DS:0040( 0005| 0|  0) 00000400 0000ffff 0 0
-33800424000i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-33800424000i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-33800424000i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-33800424000i[CPU0  ] |  GS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-33800424000i[CPU0  ] | EIP=0000e869 (0000e869)
-33800424000i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
-33800424000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
-33800424000i[CPU0  ] 0x000000000000e869>> cli  : FA
-33800424000i[CMOS  ] Last time is 1522133757 (Tue Mar 27 14:55:57 2018)
-33800424000i[      ] restoring default signal behavior
-33800424000i[SIM   ] quit_sim called with exit code 1
+01964956000p[WINGUI] >>PANIC<< POWER button turned off.
+01964956000i[CPU0  ] CPU is in real mode (active)
+01964956000i[CPU0  ] CS.mode = 16 bit
+01964956000i[CPU0  ] SS.mode = 16 bit
+01964956000i[CPU0  ] EFER   = 0x00000000
+01964956000i[CPU0  ] | EAX=0000001e  EBX=00001bd0  ECX=00001807  EDX=00000009
+01964956000i[CPU0  ] | ESP=0000ff72  EBP=0000ff90  ESI=00001be0  EDI=0000ffba
+01964956000i[CPU0  ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf ZF af PF cf
+01964956000i[CPU0  ] | SEG sltr(index|ti|rpl)     base    limit G D
+01964956000i[CPU0  ] |  CS:f000( 0004| 0|  0) 000f0000 0000ffff 0 0
+01964956000i[CPU0  ] |  DS:0040( 0005| 0|  0) 00000400 0000ffff 0 0
+01964956000i[CPU0  ] |  SS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+01964956000i[CPU0  ] |  ES:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+01964956000i[CPU0  ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+01964956000i[CPU0  ] |  GS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
+01964956000i[CPU0  ] | EIP=0000e869 (0000e869)
+01964956000i[CPU0  ] | CR0=0x60000010 CR2=0x00000000
+01964956000i[CPU0  ] | CR3=0x00000000 CR4=0x00000000
+01964956000i[CPU0  ] 0x000000000000e869>> cli  : FA
+01964956000i[CMOS  ] Last time is 1522159431 (Tue Mar 27 22:03:51 2018)
+01964956000i[      ] restoring default signal behavior
+01964956000i[SIM   ] quit_sim called with exit code 1
