@@ -1,16 +1,16 @@
 # os实验作业
 ---
 ## 组成：
-* 使用`gcc+nasm`
-* `0.bat`为快速在该文件夹打开cmd的批处理文件
-* `na.bat`为快速汇编生成com文件( 现在已改为直接生成flp文件
-* `number_version.asm`、`number_version.com`、`number_version.flp`分别为对应实验版本的汇编程序代码、com文件、软盘文件
+* 使用`gcc`+`nasm`
 ---
 ## 目录：
 ### 实验一
-* 1: 显示@
-* 2: 显示弹跳文字
-	* 2_1: 有轨迹
-	* 2_2: 无规迹
-	* 2_3: 显示信息（逐个字符）
-	* 2_4: 显示信息（整条信息）
+hw1: 控制引导扇区输出helloworld
+### 实验二
+os2: 监控程序，加载四个子程序
+### 实验三
+os3: 分离内核，并封装i/o、硬盘操作，混编nasm与C程序
+所用工具：
+* `mingw`带有的`gcc``ld``objdump``objcopy`等工具
+* `nasm`语言进行汇编
+关键参数详见make.bat批处理文件
