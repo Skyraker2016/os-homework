@@ -1,7 +1,7 @@
 [BITS 16]
 
-global __printc, __getc, __uproll, __downroll, __load_program, __run_program, __set_gb, __clc, __get_gb, __check_in, __delay, __printc_color
-
+global __printc, __getc, __uproll, __downroll, __load_program, __run_program, __set_gb, __clc, __get_gb, __check_in, __delay
+global __printc_color, __getc_dontway, __get_date, __get_time
 
 __clc:
     mov al, 03h
@@ -10,6 +10,40 @@ __clc:
     pop ecx
     jmp cx
 
+__get_date:
+    enter 0, 0
+    push bx
+    push bp
+
+    mov ah, 04h
+    int 1ah
+    push cx
+    push dx
+    pop eax
+
+    pop bp
+    pop bx
+    leave
+    pop ecx
+    jmp cx
+
+
+__get_time:
+    enter 0, 0
+    push bx
+    push bp
+
+    mov ah, 02h
+    int 1ah
+    push cx
+    push dx
+    pop eax
+
+    pop bp
+    pop bx
+    leave
+    pop ecx
+    jmp cx
 __set_gb:
     enter 0,0
     push bp
@@ -111,6 +145,29 @@ __getc:
     leave
     pop ecx
     jmp cx
+
+__getc_dontway:
+    enter 0,0
+
+    push bp
+    push bx
+    cmp ah, ah
+    mov ah, 01h
+    int 16h
+        jnz dontwait_t
+    mov eax, 0
+    dontwait_back:
+
+    pop bx
+    pop bp
+
+    leave
+    pop ecx
+    jmp cx  
+    dontwait_t:
+        mov eax, 0
+        int 16h
+        jmp dontwait_back 
 
 __uproll:
     enter 0,0
@@ -228,14 +285,14 @@ __load_program:
     push dx
     push cx
 
-    mov ax, [bp+2+4*5]
+    mov ax, [bp+2+4*6]
 	mov es, ax
-    mov bx, [bp+2+4*4]
+    mov bx, [bp+2+4*5]
 	mov ah, 2;功能号
-	mov al, [bp+2+4*3];扇区数量
+	mov al, [bp+2+4*4];扇区数量
 	mov dl, 0;驱动器
 	mov dh, [bp+2+4*1];磁头
-	mov ch, 0;柱面
+	mov ch, [bp+2+4*3];柱面
 	mov cl, [bp+2+4*2];起始扇区号
     int 13h
 
@@ -255,14 +312,13 @@ __run_program:
     mov [_far_call_add+2], ax
     mov ax, [bp+2+4*2]
     mov [_far_call_add], ax
-    mov eax, 0
-    push eax
+    mov ax, 0
+    push ax
+    push cs
     call far [_far_call_add]
 
 
     leave
     pop ecx
     jmp cx
-
-
 _far_call_add dw 0, 0

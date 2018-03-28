@@ -17,7 +17,7 @@ load_os1:
 	mov es, ax
     mov bx, 0x1000
 	mov ah, 2;功能号
-	mov al, 18;扇区数量
+	mov al, 32;扇区数量
 	mov dl, 0;驱动器
 	mov dh, 0;磁头
 	mov ch, 0;柱头

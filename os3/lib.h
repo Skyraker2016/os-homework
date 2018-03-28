@@ -15,20 +15,25 @@ char* _gets();//input a string
 int _cmps(const char *, const char *);//compare 2 strings
 int _str2int(const char *);//change string to int
 void _init();//init the screen
+void _show_time();
+int _random();
 
 //function in ASM
 extern void _printc(const char);//print a char
 extern char _getc();//get a char
+extern char _getc_dontway();//get a char, or go away
 extern char _printc_color(const char, int);//print a char with color
 //extern void _uproll(int); //up roll the screen
 //extern void _downroll(int); //up roll the screen
-extern void _load_program(int,int,int,int, int);//load a program
+extern void _load_program(int,int,int,int, int, int);//load a program
 extern void _run_program(int, int);//run a program
 extern void _clc();//clear screen
 extern void _set_gb(int, int);//set gb position
 extern int _get_gb();
 extern int _check_in();
 extern void _delay(int);
+extern int _get_time();
+extern int _get_date();
 
 
 //var
@@ -62,6 +67,9 @@ void _printc_any(const char c, int x, int y){
 void _printd(int d){
     char res[15];
     int i = 0;
+    if (d==0){
+        _printc('0');
+    }
     while(d!=0){
         res[i] = d%10+'0';
         d /= 10;
@@ -174,6 +182,39 @@ void _prints_color(const char *s, int color){
         }
     } 
     return;
+}
+
+void _show_time(){
+    int t = _get_time();
+    int d = _get_date();
+    int year = d/0x10000;
+    year = year%0x10 + year/0x10%0x10*10 + year/0x100%0x10*100 + year/0x1000%0x10*1000;
+    int month = d%0x10000/0x100;
+    month = month%0x10 + month/0x10%0x10*10;
+    int day = d%0x100;
+    day = day%0x10 + day/0x10%0x10*10;
+    int hour = t/0x1000000;
+    hour = hour%0x10 + hour/0x10%0x10*10;
+    int minute = t/0x10000%0x100;
+    minute = minute%0x10 + minute/0x10%0x10*10;
+    int second = t/0x100%0x100;
+    second = second%0x10 + second/0x10%0x10*10;
+    _printd(year);
+    _prints("-");
+    _printd(month);
+    _prints("-");
+    _printd(day);
+    _prints(" ");
+    _printd(hour);
+    _prints(":");
+    _printd(minute);
+    _prints(":");
+    _printd(second);
+    _prints("\r\n");
+}
+
+int _random(){
+    return _get_time();
 }
 
 #endif 
