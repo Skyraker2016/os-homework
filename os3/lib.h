@@ -20,9 +20,10 @@ int _random();
 
 //function in ASM
 extern void _printc(const char);//print a char
-extern char _getc();//get a char
-extern char _getc_dontway();//get a char, or go away
+extern int _getc();//get a char
+extern int _getc_dontway();//get a char, or go away
 extern char _printc_color(const char, int);//print a char with color
+extern void _reload();
 //extern void _uproll(int); //up roll the screen
 //extern void _downroll(int); //up roll the screen
 extern void _load_program(int,int,int,int, int, int);//load a program
@@ -39,7 +40,6 @@ extern int _get_date();
 //var
 char _buffer[_CMD_BUFFER_];
 char *_wrong_msg = "Invalid input, check again...\r\n";
-int _program_add = 0x3000;
 
 void _init(){
     _clc();
@@ -125,6 +125,11 @@ int _cmps(const char *a, const char *b){
 int _str2int(const char *s){
     int res = 0;
     int i = 0;
+    if (s[0]==0){
+        _prints(_wrong_msg);
+        return -1;
+    }
+        
     if (s[0]=='0' && s[1]=='x'){
         i = 2;
         for (; s[i]!=0; i++){
@@ -135,8 +140,7 @@ int _str2int(const char *s){
             else if (s[i]>='A' && s[i]<='F')
                 res = res*16+s[i]-'A'+10;
             else{
-                _prints(_wrong_msg);
-                return -1;
+
             }
         }        
     }

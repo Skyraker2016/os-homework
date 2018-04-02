@@ -1,7 +1,10 @@
 [BITS 16]
 
 global __printc, __getc, __uproll, __downroll, __load_program, __run_program, __set_gb, __clc, __get_gb, __check_in, __delay
-global __printc_color, __getc_dontway, __get_date, __get_time
+global __printc_color, __getc_dontway, __get_date, __get_time, __reload
+
+__reload:
+    jmp 0x7c00;
 
 __clc:
     mov al, 03h
@@ -99,6 +102,19 @@ __printc:
     push dx
 
     mov al, [bp+2+4*1]
+    cmp al, 13
+    jz _printc_a
+    cmp al, 10
+    jz _printc_a
+
+    mov bh, 0
+    mov al, ' '
+    mov bl, 0x07
+    mov cx, 1
+    mov ah, 09h
+    int 10h
+_printc_a:
+    mov al, [bp+2+4*1]
     mov bl, 0
     mov ah, 0eh
     int 10h
@@ -129,22 +145,6 @@ __printc_color:
     pop ecx
     jmp cx
 
-__getc:
-    enter 0,0
-
-    push bp
-    push bx
-    mov ah, 0
-    int 16h
-    mov ebx, 0
-    mov bl, al
-    mov eax, ebx
-    pop bx
-    pop bp
-
-    leave
-    pop ecx
-    jmp cx
 
 __getc_dontway:
     enter 0,0
@@ -152,7 +152,7 @@ __getc_dontway:
     push bp
     push bx
     cmp ah, ah
-    mov ah, 01h
+    mov ah, 11h
     int 16h
         jnz dontwait_t
     mov eax, 0
@@ -166,8 +166,25 @@ __getc_dontway:
     jmp cx  
     dontwait_t:
         mov eax, 0
+        mov ah, 10H
         int 16h
         jmp dontwait_back 
+
+__getc:
+    enter 0,0
+
+    push bp
+    push bx
+    mov eax, 0
+    mov ah, 10H
+    int 16h
+    pop bx
+    pop bp
+
+    leave
+    pop ecx
+    jmp cx
+
 
 __uproll:
     enter 0,0

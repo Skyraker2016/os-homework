@@ -43,7 +43,7 @@ int _main(){
             _prints("Please choose which to run: ");
             str = _gets();
             int ind = _str2int(str);
-            if (ind==-1 || program_lists[ind].loaded==0){
+            if (ind==-1 || ind>=PROGRAM_SIZE || program_lists[ind].loaded==0 ){
                 _prints_color("ERROR!! Invalid input or Program has not been loaded!\r\n", 0x0c);
                 continue;
             }
@@ -58,6 +58,9 @@ int _main(){
         }
         else if (_cmps( str, time_op)){
             _show_time();
+        }
+        else if (_cmps( str, reload_op)){
+            _reload();
         }
 //        else if (_cmps( str, page_up)){
 //            _uproll(5);

@@ -5,6 +5,15 @@
 #define LEFT 20
 #define RIGHT 60
 
+#define DD 0x4de0
+#define WW 0x48e0
+#define SS 0x50e0
+#define AA 0x4be0
+// #define DD 'd'
+// #define AA 'a'
+// #define SS 's'
+// #define WW 'w'
+
 int sc[16][41] = {0};
 int score = 0;
 int sx[200] = {0};
@@ -17,13 +26,12 @@ void food();
 
 void _main(){
     init_screen();
-    char op = 'd';
+    int op = DD;
     while(1){
-        _delay(100);
   //      _printc_any('Z',5,3);
         screen();
         //_printc_any('A',5,3);
-        char tmp = _getc_dontway();
+        int tmp = _getc_dontway();
         int xx, yy;
         xx = sx[0];
         yy = sy[0];
@@ -31,37 +39,40 @@ void _main(){
         // _set_gb(4,5);
         // _printd(sx[0]);
         // _printd(sy[0]);
-        if (tmp == 0){
-            tmp = op;
-//            _printd(flag);
-        }
+
         // else{
         //     _printd(++flag);
         // }
         
-        _set_gb(2,12);
+        _set_gb(0,12);
         _prints("----");
         _printc(tmp);
+        _prints("::");
         _printc(op);
-        if ((tmp == 'd' && op != 'a' )|| (tmp == 'a' && op == 'd')){
+try_again:
+        if ((tmp == DD && op != AA )|| (tmp == AA && op == DD)){
             yy = sy[0]+1;
             // _set_gb(2,12);
             // _prints("++++");
             // _printc(tmp);
             // _printc(op);
-            tmp = 'd';
+            tmp = DD;
         }
-        else if ((tmp == 'a' && op != 'd') || (tmp == 'd' && op == 'a')){
+        else if ((tmp == AA && op != DD) || (tmp == DD && op == AA)){
             yy = sy[0]-1;
-            tmp = 'a';
+            tmp = AA;
         }
-        else if ((tmp == 'w' && op != 's' )||( tmp == 's' && op == 'w')){
+        else if ((tmp == WW && op != SS )||( tmp == SS && op == WW)){
             xx = sx[0]-1;
-            tmp = 'w';
+            tmp = WW;
         }
-        else if ((tmp == 's' && op != 'w') || (tmp == 'w' && op == 's')){
+        else if ((tmp == SS && op != WW) || (tmp == WW && op == SS)){
             xx = sx[0]+1;
-            tmp = 's';
+            tmp = SS;
+        }
+        else{
+            tmp = op;
+            goto try_again;
         }
         
         //_printc_any('B',5,3);
@@ -76,6 +87,7 @@ void _main(){
             _set_gb(22,14);
             _prints_color(" GAMEOVER! Press any key to leave....  ", 0x74);
             _getc();
+            _delay(30);
             return;
         }
         else if (sc[xx][yy]==0x30){
@@ -99,6 +111,7 @@ void _main(){
             sy[0] = yy;
             sc[xx][yy] = 0x50;
         }
+        _delay(300);
         
         // _printc_any('C',5,3);
         op = tmp;

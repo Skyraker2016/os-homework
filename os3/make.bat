@@ -25,7 +25,7 @@ del %programname%.bin
 ::A JUMP
 set programname=a
 gcc -march=i386 -m32 -mpreferred-stack-boundary=2 -ffreestanding -Wa,-R -c %programname%.c -o %programname%.o
-.\ld.exe -m i386pe -N %programname%.o os_asm.o -Ttext 0x2000 -o %programname%.tmp
+.\ld.exe -m i386pe -N %programname%.o os_asm.o -Ttext 0x3000 -o %programname%.tmp
 objcopy -O binary %programname%.tmp %programname%.bin
 dd if=%programname%.bin of=boot.img bs=512 count=16 seek=48 conv=notrunc
 del %programname%.tmp
@@ -34,7 +34,7 @@ del %programname%.bin
 ::COLORFUL STRING
 set programname=colorful_string
 gcc -march=i386 -m32 -mpreferred-stack-boundary=2 -ffreestanding -Wa,-R -c %programname%.c -o %programname%.o
-.\ld.exe -m i386pe -N %programname%.o os_asm.o -Ttext 0x4000 -o %programname%.tmp
+.\ld.exe -m i386pe -N %programname%.o os_asm.o -Ttext 0x8000 -o %programname%.tmp
 objcopy -O binary %programname%.tmp %programname%.bin
 dd if=%programname%.bin of=boot.img bs=512 count=32 seek=64 conv=notrunc
 del %programname%.tmp
@@ -48,6 +48,16 @@ objcopy -O binary %programname%.tmp %programname%.bin
 dd if=%programname%.bin of=boot.img bs=512 count=32 seek=96 conv=notrunc
 del %programname%.tmp
 del %programname%.bin
+
+::ASCII
+set programname=ascii
+gcc -march=i386 -m32 -mpreferred-stack-boundary=2 -ffreestanding -Wa,-R -c %programname%.c -o %programname%.o
+.\ld.exe -m i386pe -N %programname%.o os_asm.o -Ttext 0x0000 -o %programname%.tmp
+objcopy -O binary %programname%.tmp %programname%.bin
+dd if=%programname%.bin of=boot.img bs=512 count=16 seek=128 conv=notrunc
+del %programname%.tmp
+del %programname%.bin
+
 
 ::copy to bochs
 copy .\boot.img d:\bochs-2.6.9

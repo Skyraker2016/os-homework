@@ -19,16 +19,17 @@ typedef struct
     int loaded;
 } ProgramList;
 
-#define PROGRAM_SIZE 4
+#define PROGRAM_SIZE 5
 
 ProgramList program_lists[PROGRAM_SIZE] ={
                     {0x4000, 0x10000, 0x2000, "TO UPPER", 0},
-                    {0x6000, 0x12000, 0x2000, "ANY STRING", 0},
-                    {0x8000, 0x14000, 0x4000, "COLORFUL A", 0},
-                    {0xC000, 0x20000, 0x4000, "SNAKE", 0}
+                    {0x6000, 0x13000, 0x2000, "ANY STRING", 0},
+                    {0x8000, 0x18000, 0x4000, "COLORFUL A", 0},
+                    {0xC000, 0x20000, 0x4000, "SNAKE", 0},
+                    {0x10000, 0x30000, 0x2000, "ASCII", 0}
                 };
 const char * wel_msg = "WELCOME TO MY_OS:\r\n";
-const char * left_open = "\r\n~>> ";
+const char * left_open = "~>> ";
 const char * load_op = "-load";
 const char * load_msg = "Input the index of your program: ";
 const char * list_op = "-list";
@@ -36,6 +37,7 @@ const char * time_op = "-time";
 const char * run_op = "-run";
 const char * load_all_op = "-lall";
 const char * help_op = "-help";
+const char * reload_op = "-reload";
 //const char * page_up = "-up";
 //const char * page_down = "-down";
 
@@ -48,7 +50,7 @@ void help();
 
 void print_table(ProgramList *p){
     _prints_color("\r\n|----------------------------------------------------------------------------",0x0e);
-    for (int i=0; i<4; i++){
+    for (int i=0; i<PROGRAM_SIZE; i++){
         _prints_color("\r\n|- ID: ",0x0e);
         _printd(i);
         _prints_color("\tName: ",0x0e);
