@@ -101,6 +101,8 @@ void help(){
     _prints_color("show current time", 0x0F);
     _prints_color("\r\n-lall  ", 0x0D);
     _prints_color("load all the program", 0x0F);
+    _prints_color("\r\n-reload  ", 0x0D);
+    _prints_color("reload the system", 0x0F);
     _prints("\r\n");
 }
 
