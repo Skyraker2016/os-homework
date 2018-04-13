@@ -11,7 +11,12 @@ void _main(){
     int dirx = 1;
     int diry = 1;
     _prints("What char do  you want to move: ");
-    char* cc = _gets();
+    char* cc ;
+    while(1){
+        cc = _gets();
+        if (_strlen(cc)!=0)
+            break;
+    }
     int i=0;
     int l=_strlen(cc);
     while(1){

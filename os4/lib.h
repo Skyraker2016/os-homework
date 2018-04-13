@@ -34,6 +34,7 @@ extern void _reload();
 extern void _load_program(int,int,int,int, int, int);//load a program
 extern void _run_program(int, int);//run a program
 extern void _clc();//clear screen
+extern void _screen_block(int, int, int, int, int);
 extern void _set_gb(int, int);//set gb position
 extern int _get_gb();
 extern int _check_in();
@@ -43,12 +44,20 @@ extern int _get_date();
 extern void init_int_time();
 extern void init_int_keyboard();
 
+extern void init_int();
+extern void int_33H_c();
+extern void int_34H_c();
+extern void int_35H_c();
+extern void int_36H_c();
+extern void test_int();
+void jump_ball(int, int, int, int, char, int);
+
 //var
 char _buffer[_CMD_BUFFER_];
 char *_wrong_msg = "Invalid input, check again...\r\n";
 int int_time_count = 0;
 int int_keyboard_count = 0;
-char *int_time_char = "|/-\\*";
+char int_time_char[5] = {'|','/','-','\\','*'};
 
 void int_08H_c(){
     int_time_count = (int_time_count+1)%300;
@@ -260,6 +269,47 @@ void _show_time(){
 
 int _random(){
     return _get_time();
+}
+
+void int_33H_c(){
+    _prints_any("Now is 33H!",6,13);
+    jump_ball(0,0,12,39,'Y', 0x7000);
+    return;
+}
+void int_34H_c(){
+    _prints_any("Now is 34H!",46,13);
+    jump_ball(0,40,12,79,'E', 0x6000);
+    return;
+}
+void int_35H_c(){
+    _prints_any("Now is 35H!",6,12);
+    jump_ball(13,0,24,39,'G', 0x5000);
+    return;
+}
+void int_36H_c(){
+    _prints_any("Now is 36H!",46,12);
+    jump_ball(13,40,24,79,'Z', 0x4000);
+    return;
+}
+
+void jump_ball(int x1, int y1, int x2, int y2, char c, int block_color){
+    _screen_block(x1, y1, x2, y2, block_color);
+    int x = x1+2;
+    int y = y1+5;
+    int dirx = 1;
+    int diry = 1;
+    while(1){
+        if (_check_in())
+            return;
+        if (x+dirx == x1 || x+dirx == x2)
+            dirx = -dirx;
+        if (y+diry == y1 || y+diry == y2)
+            diry = -diry;
+        x += dirx;
+        y += diry;
+        _printc_any(c,y,x);
+        _delay(100);
+    }
 }
 
 #endif 

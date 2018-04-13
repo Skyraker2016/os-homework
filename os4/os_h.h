@@ -45,16 +45,14 @@ void print_table(ProgramList*);
 int _loadp(ProgramList);//load a program
 void help();
 void init_os();
-void init_int();
+
+
 
 void init_os(){
     _init();
     init_int();
-}
-
-void init_int(){
-    init_int_time();
-    init_int_keyboard();
+    test_int();
+    _init();
 }
 
 
@@ -118,8 +116,6 @@ void help(){
     _prints_color("reload the system", 0x0F);
     _prints("\r\n");
 }
-
-
 
 
 

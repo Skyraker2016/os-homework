@@ -48,7 +48,7 @@ int _main(){
                 continue;
             }
             else{
-                _clc();
+                _init();
                 _run_program(program_lists[ind].sto_add/0x10000*0x1000, program_lists[ind].sto_add%0x10000);
                 _init();
             }

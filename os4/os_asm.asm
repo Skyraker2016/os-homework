@@ -1,8 +1,29 @@
 [BITS 16]
 
-global __printc, __getc, __uproll, __downroll, __load_program, __run_program, __set_gb, __clc, __get_gb, __check_in, __delay
-global __printc_color, __getc_dontway, __get_date, __get_time, __reload, _init_int_time, _init_int_keyboard
-extern _int_08H_c, _int_09H_c
+global __printc, __getc, __uproll, __downroll, __load_program, __run_program, __set_gb, __clc, __screen_block, __get_gb, __check_in, __delay
+global __printc_color, __getc_dontway, __get_date, __get_time, __reload, _init_int, _test_int
+extern _int_08H_c, _int_09H_c,  _int_33H_c, _int_34H_c, _int_35H_c, _int_36H_c 
+extern __prints, __show_time, __gets
+
+_test_int:
+    push bx
+    int 33H
+    int 34H
+    int 35H
+    int 36H
+    mov ah, 1
+    int 21H
+    mov ah, 3
+    int 21H
+    mov ebx, eax
+    mov ah, 4
+    int 21H
+    mov ah, 2
+    int 21H
+    pop bx
+    pop ecx
+    jmp cx
+
 __reload:
     jmp 0FFFFH:0000H
 
@@ -13,19 +34,66 @@ __clc:
     pop ecx
     jmp cx
 
-_init_int_time:
+__screen_block:
+    enter 0,0
+    push bx
+    push ds
+    push es
+    push bp
+    
+    mov ah, 06h
+    mov al, 0
+    mov bx, [bp+2+4*5]
+    mov ch, [bp+2+4*1]
+    mov cl, [bp+2+4*2]
+    mov dh, [bp+2+4*3]
+    mov dl, [bp+2+4*4]
+    int 10H
+
+    pop bp
+    pop es
+    pop ds
+    pop bx
+    leave
+    pop ecx
+    jmp cx
+
+_init_int:
     push bx
     push es
     push ax
     cli
     mov bx, 0
     mov es, bx
+    ;int 08H
     mov ax, [es:8*4]
     mov [old_08H], ax
     mov ax, [es:8*4+2]
     mov [old_08H+2], ax
     mov word[es:8*4], int_08H
     mov word[es:8*4+2], 0
+    ;int 09H
+    mov ax, [es:9*4]
+    mov [old_09H], ax
+    mov ax, [es:9*4+2]
+    mov [old_09H+2], ax
+    mov word[es:9*4], int_09H
+    mov word[es:9*4+2], 0
+    ;int 21H
+    mov word[es:21H*4], int_21H
+    mov word[es:21H*4+2], 0
+    ;int 33H
+    mov word[es:33H*4], int_33H
+    mov word[es:33H*4+2], 0
+    ;int 34H
+    mov word[es:34H*4], int_34H
+    mov word[es:34H*4+2], 0
+    ;int 35H
+    mov word[es:35H*4], int_35H
+    mov word[es:35H*4+2], 0
+    ;int 36H
+    mov word[es:36H*4], int_36H
+    mov word[es:36H*4+2], 0
     sti
     pop ax
     pop es
@@ -45,10 +113,10 @@ int_08H:
     push es
 
 
-    mov ax, 0
+    mov ax, cs
     mov ds, ax
-    push ax
 
+    push 0
     call _int_08H_c
     pushf
     call far [old_08H]
@@ -61,25 +129,6 @@ int_08H:
     pop ax
     iret
 
-_init_int_keyboard:
-    push bx
-    push es
-    push ax
-    cli
-    mov bx, 0
-    mov es, bx
-    mov ax, [es:9*4]
-    mov [old_09H], ax
-    mov ax, [es:9*4+2]
-    mov [old_09H+2], ax
-    mov word[es:9*4], int_09H
-    mov word[es:9*4+2], 0
-    sti
-    pop ax
-    pop es
-    pop bx
-    pop ecx
-    jmp cx
 old_09H:
     dw 0, 0;
 
@@ -92,9 +141,9 @@ int_09H:
     push es
 
 
-    mov ax, 0
+    mov ax, cs
     mov ds, ax
-    push ax
+    push 0
 
     call _int_09H_c
     pushf
@@ -107,6 +156,57 @@ int_09H:
     pop bx
     pop ax
     iret  
+
+int_21H:
+    push ds
+    push es
+    cmp ah, 1
+        jz int_21H_1;show time
+    cmp ah, 2
+        jz int_21H_2;get char
+    cmp ah, 3
+        jz int_21H_3;get string
+    cmp ah, 4
+        jz int_21H_4;print string, ebx is the point
+int_21H_back:
+    pop es
+    pop ds
+    iret
+int_21H_1:
+    push 0
+    call __show_time
+    jmp int_21H_back
+int_21H_2:
+    push 0
+    call __getc
+    jmp int_21H_back
+int_21H_3:
+    push 0
+    call __gets
+    jmp int_21H_back
+int_21H_4:
+    push ebx
+    push 0
+    call __prints
+    pop ebx
+    jmp int_21H_back
+
+int_33H:
+    push 0
+    call _int_33H_c
+    iret
+int_34H:
+    push 0
+    call _int_34H_c
+    iret
+int_35H:
+    push 0
+    call _int_35H_c
+    iret
+int_36H:
+    push 0
+    call _int_36H_c
+    iret
 
 __get_date:
     enter 0, 0
